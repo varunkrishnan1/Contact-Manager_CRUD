@@ -25,6 +25,11 @@ const Dashboard = () => {
     email: "",
   });
   const [searchVal, setsearchVal] = useState("")
+  const [searchedData1, setsearchedData1] = useState({})
+  const [setVal, setAddVal] = useState({
+    name : "Not Found"
+  })
+
   
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -69,6 +74,7 @@ const Dashboard = () => {
       data1.filter((value)=>{
         if(value.name.toLowerCase()==searchVal.toLowerCase()){
           console.log(value)
+          setsearchedData1(value)
         }
       })
     }
@@ -89,7 +95,7 @@ const Dashboard = () => {
             
             
           </div>
-          <Navbar.Brand className="mt-2 fw-bold text-light d-flex gap-3" href="#home">
+          <Navbar.Brand className="mt-2 fw-bold text-light d-flex gap-3">
             <input onChange={(e)=>setsearchVal(e.target.value)} placeholder="Search" className="form-control border border-1 border-danger" type="text" />
             <button onClick={searchHandle} className="btn btn-sm btn-danger">Search</button>
           </Navbar.Brand>
@@ -217,9 +223,55 @@ const Dashboard = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <div className="mt-5 container d-flex gap-5 row ms-auto">
+          {
+            <Card key={searchedData1.id}
+              className="bg-black text-light"
+              style={{
+                width: "16rem",
+                height: "14rem",
+                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                border: "1px solid white",
+                borderRadius: 15,
+              }}
+            >
+              <Card.Body className="text-center">
+                <Card.Title className="fs-4">
+                  <IoMdContact />
+                </Card.Title>
+                <Card.Title style={{ fontSize: 17 }}>{searchedData1.name}</Card.Title>
+                <Card.Text>{searchedData1.phoneNum}</Card.Text>
+                <Card.Text style={{ fontSize: 11 }}>{searchedData1.email}</Card.Text>
+                <button
+                  onClick={() => {
+                    patchData(value);
+                    handleShow1();
+                  }}
+                  className="btn btn-lg text-info"
+                >
+                  <FaUserEdit />
+                </button>
+                <button
+                  onClick={() => {
+                    deleteall(searchedData1.id);
+                  }}
+                  className="btn text-danger"
+                >
+                  <ImBin2 />
+                </button>
+              </Card.Body>
+            </Card>
+            
+          }
+        </div>
+
+
+
+
         <div className="mt-5 container d-flex gap-5 row ms-auto">
           {data1.map((value) => (
-            <Card
+            <Card key={value.id}
               className="bg-black text-light"
               style={{
                 width: "16rem",
